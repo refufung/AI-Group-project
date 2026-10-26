@@ -1,0 +1,102 @@
+{
+  "seed": 42,
+  "device": "mps",
+  "selected_lr": 0.001,
+  "selected_dropout": 0.3,
+  "best_val_macro_f1": 0.5100532957894269,
+  "best_epoch": 20,
+  "tuning_results": [
+    {
+      "lr": 0.001,
+      "dropout": 0.3,
+      "best_val_macro_f1": 0.5100532957894269,
+      "best_epoch": 20
+    },
+    {
+      "lr": 0.001,
+      "dropout": 0.5,
+      "best_val_macro_f1": 0.49346379176637,
+      "best_epoch": 15
+    },
+    {
+      "lr": 0.0003,
+      "dropout": 0.3,
+      "best_val_macro_f1": 0.48248468314451287,
+      "best_epoch": 12
+    },
+    {
+      "lr": 0.0003,
+      "dropout": 0.5,
+      "best_val_macro_f1": 0.48028014971774147,
+      "best_epoch": 15
+    }
+  ],
+  "test": {
+    "loss": 1.0719868285315377,
+    "accuracy": 0.5505952380952381,
+    "macro_f1": 0.5533246456042461,
+    "confusion_matrix": [
+      [
+        78,
+        24,
+        62,
+        4
+      ],
+      [
+        11,
+        99,
+        31,
+        27
+      ],
+      [
+        49,
+        26,
+        80,
+        13
+      ],
+      [
+        7,
+        23,
+        25,
+        113
+      ]
+    ],
+    "class_names": [
+      "French_bulldog",
+      "Cardigan",
+      "Labrador_retriever",
+      "golden_retriever"
+    ]
+  },
+  "class_counts": {
+    "train": {
+      "French_bulldog": 785,
+      "Cardigan": 785,
+      "Labrador_retriever": 785,
+      "golden_retriever": 785
+    },
+    "val": {
+      "French_bulldog": 168,
+      "Cardigan": 168,
+      "Labrador_retriever": 168,
+      "golden_retriever": 168
+    },
+    "test": {
+      "French_bulldog": 168,
+      "Cardigan": 168,
+      "Labrador_retriever": 168,
+      "golden_retriever": 168
+    },
+    "balanced_per_class": 1121
+  },
+  "mean": [
+    0.5296207070350647,
+    0.4922817051410675,
+    0.44506850838661194
+  ],
+  "std": [
+    0.2501884698867798,
+    0.24680933356285095,
+    0.25292617082595825
+  ]
+}

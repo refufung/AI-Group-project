@@ -1,0 +1,42 @@
+{
+  "n_images": 300,
+  "accuracy": 0.5333333333333333,
+  "macro_f1": 0.3155555555555556,
+  "filename_overlap_with_splits": 211,
+  "per_class_accuracy": {
+    "Cardigan": 0.66,
+    "French_bulldog": 0.4066666666666667
+  },
+  "confusion_matrix": [
+    [
+      61,
+      26,
+      57,
+      6
+    ],
+    [
+      14,
+      99,
+      25,
+      12
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "class_names": [
+    "French_bulldog",
+    "Cardigan",
+    "Labrador_retriever",
+    "golden_retriever"
+  ]
+}

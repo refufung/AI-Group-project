@@ -1,0 +1,56 @@
+{
+  "seed": 42,
+  "train_ratio": 0.7,
+  "val_ratio": 0.15,
+  "test_ratio": 0.15,
+  "breeds": {
+    "1121-n000002-French_bulldog": {
+      "class_name": "French_bulldog",
+      "label": 0
+    },
+    "2909-n000116-Cardigan": {
+      "class_name": "Cardigan",
+      "label": 1
+    },
+    "3580-n000122-Labrador_retriever": {
+      "class_name": "Labrador_retriever",
+      "label": 2
+    },
+    "5355-n000126-golden_retriever": {
+      "class_name": "golden_retriever",
+      "label": 3
+    }
+  },
+  "class_counts": {
+    "train": {
+      "French_bulldog": 785,
+      "Cardigan": 785,
+      "Labrador_retriever": 785,
+      "golden_retriever": 785
+    },
+    "val": {
+      "French_bulldog": 168,
+      "Cardigan": 168,
+      "Labrador_retriever": 168,
+      "golden_retriever": 168
+    },
+    "test": {
+      "French_bulldog": 168,
+      "Cardigan": 168,
+      "Labrador_retriever": 168,
+      "golden_retriever": 168
+    },
+    "balanced_per_class": 1121
+  },
+  "note": "No leaf-group IDs in Tsinghua low-resolution set; each JPEG is one original image. Split is by image; augmentation is applied only in the training DataLoader and never written to disk.",
+  "mean": [
+    0.5296207070350647,
+    0.4922817051410675,
+    0.44506850838661194
+  ],
+  "std": [
+    0.2501884698867798,
+    0.24680933356285095,
+    0.25292617082595825
+  ]
+}
