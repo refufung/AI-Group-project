@@ -9,7 +9,7 @@ import torch.nn as nn
 class SmallCNN(nn.Module):
     def __init__(self, num_classes: int = 4, dropout: float = 0.3):
         super().__init__()
-        channels = [32, 64, 128, 256]
+        channels = [64, 128, 256, 512]
         layers: list[nn.Module] = []
         in_ch = 3
         for out_ch in channels:

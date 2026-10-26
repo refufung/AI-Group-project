@@ -1,4 +1,4 @@
-"""Train SmallCNN with validation tuning; evaluate once on the held-out test set."""
+"""Train improved SmallCNN; evaluate once on the held-out test set."""
 
 from __future__ import annotations
 
@@ -11,6 +11,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
+from torch.optim.lr_scheduler import CosineAnnealingLR
 from torch.utils.data import DataLoader
 
 from dataset import make_loaders
@@ -19,13 +20,12 @@ from model import SmallCNN
 OUTPUT_DIR = Path(__file__).resolve().parents[1] / "outputs"
 CLASS_NAMES = ["French_bulldog", "Cardigan", "Labrador_retriever", "golden_retriever"]
 SEED = 42
-MAX_EPOCHS = 20
-PATIENCE = 5
+MAX_EPOCHS = 50
+PATIENCE = 8
 BATCH_SIZE = 32
-
-# Validation-only hyperparameter grid
-LR_GRID = [1e-3, 3e-4]
-DROPOUT_GRID = [0.3, 0.5]
+LR = 1e-3
+DROPOUT = 0.3
+LABEL_SMOOTHING = 0.1
 
 
 def set_seed(seed: int = SEED) -> None:
@@ -72,12 +72,13 @@ def train_one_run(
     train_loader: DataLoader,
     val_loader: DataLoader,
     device: torch.device,
-    lr: float,
-    dropout: float,
+    lr: float = LR,
+    dropout: float = DROPOUT,
 ) -> dict:
     model = SmallCNN(num_classes=len(CLASS_NAMES), dropout=dropout).to(device)
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.CrossEntropyLoss(label_smoothing=LABEL_SMOOTHING)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    scheduler = CosineAnnealingLR(optimizer, T_max=MAX_EPOCHS)
 
     history = {"train_loss": [], "train_acc": [], "val_loss": [], "val_acc": [], "val_macro_f1": []}
     best_f1 = -1.0
@@ -102,6 +103,7 @@ def train_one_run(
             correct += (logits.argmax(1) == labels).sum().item()
             total += labels.size(0)
 
+        scheduler.step()
         train_loss = running_loss / max(total, 1)
         train_acc = correct / max(total, 1)
         val_loss, val_acc, val_f1, _, _, _ = evaluate(model, val_loader, device, criterion)
@@ -112,8 +114,9 @@ def train_one_run(
         history["val_acc"].append(val_acc)
         history["val_macro_f1"].append(val_f1)
 
+        current_lr = scheduler.get_last_lr()[0]
         print(
-            f"  epoch {epoch:02d}/{MAX_EPOCHS}  "
+            f"  epoch {epoch:02d}/{MAX_EPOCHS}  lr={current_lr:.6f}  "
             f"train_loss={train_loss:.4f} train_acc={train_acc:.4f}  "
             f"val_loss={val_loss:.4f} val_acc={val_acc:.4f} val_macro_f1={val_f1:.4f}"
         )
@@ -183,37 +186,24 @@ def main() -> None:
     set_seed(SEED)
     device = get_device()
     print(f"Device: {device}")
+    print(
+        f"Config: epochs={MAX_EPOCHS} patience={PATIENCE} lr={LR} "
+        f"dropout={DROPOUT} label_smoothing={LABEL_SMOOTHING} cosine=True "
+        f"channels=64-128-256-512"
+    )
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     train_loader, val_loader, test_loader, mean, std = make_loaders(batch_size=BATCH_SIZE)
     print(f"Norm mean={mean}, std={std}")
 
-    tuning_results = []
-    best_run = None
-
-    for lr in LR_GRID:
-        for dropout in DROPOUT_GRID:
-            print(f"\n=== Tuning lr={lr}, dropout={dropout} ===")
-            set_seed(SEED)
-            run = train_one_run(train_loader, val_loader, device, lr=lr, dropout=dropout)
-            summary = {
-                "lr": lr,
-                "dropout": dropout,
-                "best_val_macro_f1": run["best_val_macro_f1"],
-                "best_epoch": run["best_epoch"],
-            }
-            tuning_results.append(summary)
-            print(f"  best val macro-F1={run['best_val_macro_f1']:.4f} @ epoch {run['best_epoch']}")
-            if best_run is None or run["best_val_macro_f1"] > best_run["best_val_macro_f1"]:
-                best_run = run
-
-    assert best_run is not None
+    print(f"\n=== Training lr={LR}, dropout={DROPOUT} ===")
+    set_seed(SEED)
+    best_run = train_one_run(train_loader, val_loader, device, lr=LR, dropout=DROPOUT)
     print(
-        f"\nSelected config: lr={best_run['lr']}, dropout={best_run['dropout']}, "
-        f"val_macro_f1={best_run['best_val_macro_f1']:.4f}"
+        f"\nSelected: lr={best_run['lr']}, dropout={best_run['dropout']}, "
+        f"val_macro_f1={best_run['best_val_macro_f1']:.4f} @ epoch {best_run['best_epoch']}"
     )
 
-    # Save best checkpoint
     ckpt_path = OUTPUT_DIR / "best_small_cnn.pt"
     torch.save(
         {
@@ -224,6 +214,10 @@ def main() -> None:
             "best_epoch": best_run["best_epoch"],
             "class_names": CLASS_NAMES,
             "seed": SEED,
+            "channels": [64, 128, 256, 512],
+            "label_smoothing": LABEL_SMOOTHING,
+            "max_epochs": MAX_EPOCHS,
+            "scheduler": "CosineAnnealingLR",
         },
         ckpt_path,
     )
@@ -231,14 +225,13 @@ def main() -> None:
 
     plot_curves(best_run["history"], OUTPUT_DIR / "training_curves.png")
 
-    # Single final test evaluation
-    criterion = nn.CrossEntropyLoss()
+    # Eval without label smoothing for clean metrics
+    criterion_eval = nn.CrossEntropyLoss()
     test_loss, test_acc, test_f1, cm, _, _ = evaluate(
-        best_run["model"], test_loader, device, criterion
+        best_run["model"], test_loader, device, criterion_eval
     )
     plot_confusion(cm, OUTPUT_DIR / "confusion_matrix.png")
 
-    # Class counts from split meta
     meta_path = OUTPUT_DIR / "split_meta.json"
     with meta_path.open(encoding="utf-8") as f:
         split_meta = json.load(f)
@@ -248,9 +241,13 @@ def main() -> None:
         "device": str(device),
         "selected_lr": best_run["lr"],
         "selected_dropout": best_run["dropout"],
+        "label_smoothing": LABEL_SMOOTHING,
+        "scheduler": "CosineAnnealingLR",
+        "channels": [64, 128, 256, 512],
         "best_val_macro_f1": best_run["best_val_macro_f1"],
         "best_epoch": best_run["best_epoch"],
-        "tuning_results": tuning_results,
+        "max_epochs": MAX_EPOCHS,
+        "patience": PATIENCE,
         "test": {
             "loss": test_loss,
             "accuracy": test_acc,

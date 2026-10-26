@@ -69,8 +69,7 @@ def build_transforms(
     if train:
         return transforms.Compose(
             [
-                transforms.Resize(256),
-                transforms.RandomCrop(224),
+                transforms.RandomResizedCrop(224, scale=(0.75, 1.0)),
                 transforms.RandomHorizontalFlip(),
                 transforms.RandomRotation(15),
                 transforms.ColorJitter(
