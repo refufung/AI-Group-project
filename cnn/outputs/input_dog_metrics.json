@@ -1,42 +1,74 @@
 {
-  "n_images": 300,
-  "accuracy": 0.5333333333333333,
-  "macro_f1": 0.3155555555555556,
-  "filename_overlap_with_splits": 211,
-  "per_class_accuracy": {
-    "Cardigan": 0.66,
-    "French_bulldog": 0.4066666666666667
+  "all": {
+    "n": 300,
+    "accuracy": 0.7466666666666667,
+    "macro_f1": 0.4099687302886744,
+    "confusion_matrix": [
+      [
+        105,
+        8,
+        35,
+        2
+      ],
+      [
+        14,
+        119,
+        9,
+        8
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "per_class_accuracy": {
+      "Cardigan": 0.7933333333333333,
+      "French_bulldog": 0.7
+    }
   },
-  "confusion_matrix": [
-    [
-      61,
-      26,
-      57,
-      6
+  "clean_no_filename_overlap": {
+    "n": 89,
+    "accuracy": 0.8089887640449438,
+    "macro_f1": 0.2236024844720497,
+    "confusion_matrix": [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        72,
+        3,
+        5
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
     ],
-    [
-      14,
-      99,
-      25,
-      12
-    ],
-    [
-      0,
-      0,
-      0,
-      0
-    ],
-    [
-      0,
-      0,
-      0,
-      0
-    ]
-  ],
-  "class_names": [
-    "French_bulldog",
-    "Cardigan",
-    "Labrador_retriever",
-    "golden_retriever"
-  ]
+    "per_class_accuracy": {
+      "Cardigan": 0.8089887640449438
+    }
+  },
+  "n_overlap_filenames": 211,
+  "checkpoint_best_epoch": 48,
+  "checkpoint_val_macro_f1": 0.6703984411297148
 }

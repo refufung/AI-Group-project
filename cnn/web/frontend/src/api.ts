@@ -1,4 +1,10 @@
-const API_BASE = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000";
+// Dev: talk to local API. Production (same-origin Docker/tunnel): relative URLs.
+const API_BASE =
+  import.meta.env.VITE_API_URL !== undefined
+    ? import.meta.env.VITE_API_URL
+    : import.meta.env.DEV
+      ? "http://127.0.0.1:8000"
+      : "";
 
 export type Prob = { class_name: string; probability: number };
 

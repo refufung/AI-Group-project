@@ -9,6 +9,8 @@ from pathlib import Path
 import torch
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from PIL import Image
 from torchvision import transforms
 
@@ -18,6 +20,7 @@ CNN_ROOT = Path(__file__).resolve().parents[2]
 OUTPUTS = CNN_ROOT / "outputs"
 CKPT_PATH = OUTPUTS / "best_small_cnn.pt"
 META_PATH = OUTPUTS / "split_meta.json"
+FRONTEND_DIST = CNN_ROOT / "web" / "frontend" / "dist"
 
 ALLOWED_EXT = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 
@@ -252,3 +255,23 @@ async def predict_batch(
         "accuracy": (correct / labeled) if labeled else None,
     }
     return {"summary": summary, "results": results, "class_names": predictor.class_names}
+
+
+# Serve the built React app (same origin for tunnel / Docker deploys)
+if FRONTEND_DIST.is_dir():
+    assets_dir = FRONTEND_DIST / "assets"
+    if assets_dir.is_dir():
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    @app.get("/")
+    def spa_index() -> FileResponse:
+        return FileResponse(FRONTEND_DIST / "index.html")
+
+    @app.get("/{full_path:path}")
+    def spa_fallback(full_path: str) -> FileResponse:
+        # Do not shadow API routes (already registered above)
+        candidate = FRONTEND_DIST / full_path
+        if candidate.is_file():
+            return FileResponse(candidate)
+        return FileResponse(FRONTEND_DIST / "index.html")
+

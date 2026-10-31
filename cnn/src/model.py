@@ -28,7 +28,6 @@ class SmallCNN(nn.Module):
         self.pool = nn.AdaptiveAvgPool2d(1)
         self.dropout = nn.Dropout(dropout)
         self.fc = nn.Linear(channels[-1], num_classes)
-
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.features(x)
         x = self.pool(x)
