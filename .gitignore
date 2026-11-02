@@ -1,10 +1,22 @@
-# Large dataset archive (exceeds GitHub 100MB limit)
-OneDrive_2026-10-24/**/low-resolution.zip
+# Dataset (too large for GitHub; keep local / host elsewhere)
+OneDrive_2026-10-24/
 
 # Python virtualenvs
 cnn/.venv/
 EfficientNet/.venv/
+.venv/
+venv/
 
 # Model checkpoints
 cnn/outputs/*.pt
 EfficientNet/outputs/*.pt
+**/*.pt
+
+# Matplotlib cache
+**/.mplconfig/
+
+# OS / editor
+.DS_Store
+**/.DS_Store
+.idea/
+.vscode/
