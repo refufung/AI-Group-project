@@ -1,0 +1,120 @@
+{
+  "seed": 42,
+  "device": "mps",
+  "architecture": "efficientnet_b0_from_scratch",
+  "width_mult": 0.65,
+  "dropout": 0.1,
+  "depth_drop": 0,
+  "params": 3196342,
+  "pretrained": null,
+  "optimizer": "AdamW",
+  "config": {
+    "seed": 42,
+    "batch_size": 32,
+    "num_classes": 4,
+    "width_mult": 0.65,
+    "dropout": 0.1,
+    "depth_drop": 0,
+    "label_smoothing": 0.05,
+    "weight_decay": 0.01,
+    "ema_decay": 0.995,
+    "ema_start_epoch": 5,
+    "mixup_alpha": 0.2,
+    "cutmix_alpha": 1.0,
+    "mix_prob": 0.5,
+    "randaugment": true,
+    "randaugment_magnitude": 5,
+    "stage_a_max_epochs": 80,
+    "stage_a_patience": 12,
+    "stage_a_lr": 0.001,
+    "stage_b_max_epochs": 30,
+    "stage_b_patience": 8,
+    "stage_b_lr": 0.0001,
+    "save_plots": true,
+    "write_metrics": true,
+    "ckpt_name": "best_efficientnet_b0.pt"
+  },
+  "stage_a": {
+    "max_epochs": 80,
+    "patience": 12,
+    "lr": 0.001,
+    "best_val_macro_f1": 0.7840760758273914,
+    "best_epoch": 51
+  },
+  "stage_b": {
+    "max_epochs": 30,
+    "patience": 8,
+    "lr": 0.0001,
+    "best_val_macro_f1": 0.7815734025949629,
+    "best_epoch": 3
+  },
+  "test": {
+    "loss": 0.5843359955719539,
+    "accuracy": 0.7857142857142857,
+    "macro_f1": 0.7856914381860677,
+    "confusion_matrix": [
+      [
+        127,
+        10,
+        25,
+        6
+      ],
+      [
+        5,
+        133,
+        10,
+        20
+      ],
+      [
+        21,
+        10,
+        125,
+        12
+      ],
+      [
+        8,
+        5,
+        12,
+        143
+      ]
+    ],
+    "class_names": [
+      "French_bulldog",
+      "Cardigan",
+      "Labrador_retriever",
+      "golden_retriever"
+    ]
+  },
+  "class_counts": {
+    "train": {
+      "French_bulldog": 785,
+      "Cardigan": 785,
+      "Labrador_retriever": 785,
+      "golden_retriever": 785
+    },
+    "val": {
+      "French_bulldog": 168,
+      "Cardigan": 168,
+      "Labrador_retriever": 168,
+      "golden_retriever": 168
+    },
+    "test": {
+      "French_bulldog": 168,
+      "Cardigan": 168,
+      "Labrador_retriever": 168,
+      "golden_retriever": 168
+    },
+    "balanced_per_class": 1121
+  },
+  "mean": [
+    0.485,
+    0.456,
+    0.406
+  ],
+  "std": [
+    0.229,
+    0.224,
+    0.225
+  ],
+  "ckpt_path": "/Users/rexfufung/Desktop/AI Group project /EfficientNet/outputs/best_efficientnet_b0.pt"
+}

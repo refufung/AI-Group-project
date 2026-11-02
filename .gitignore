@@ -1,0 +1,10 @@
+# Large dataset archive (exceeds GitHub 100MB limit)
+OneDrive_2026-10-24/**/low-resolution.zip
+
+# Python virtualenvs
+cnn/.venv/
+EfficientNet/.venv/
+
+# Model checkpoints
+cnn/outputs/*.pt
+EfficientNet/outputs/*.pt
