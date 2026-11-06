@@ -1,0 +1,57 @@
+{
+  "seed": 42,
+  "per_class": 1000,
+  "train_ratio": 0.7,
+  "val_ratio": 0.15,
+  "test_ratio": 0.15,
+  "breeds": {
+    "1121-n000002-French_bulldog": {
+      "class_name": "French_bulldog",
+      "label": 0
+    },
+    "2909-n000116-Cardigan": {
+      "class_name": "Cardigan",
+      "label": 1
+    },
+    "3580-n000122-Labrador_retriever": {
+      "class_name": "Labrador_retriever",
+      "label": 2
+    },
+    "5355-n000126-golden_retriever": {
+      "class_name": "golden_retriever",
+      "label": 3
+    }
+  },
+  "class_counts": {
+    "train": {
+      "French_bulldog": 700,
+      "Cardigan": 700,
+      "Labrador_retriever": 700,
+      "golden_retriever": 700
+    },
+    "val": {
+      "French_bulldog": 150,
+      "Cardigan": 150,
+      "Labrador_retriever": 150,
+      "golden_retriever": 150
+    },
+    "test": {
+      "French_bulldog": 150,
+      "Cardigan": 150,
+      "Labrador_retriever": 150,
+      "golden_retriever": 150
+    },
+    "per_class_cap": 1000
+  },
+  "mean": [
+    0.5296804308891296,
+    0.49001544713974,
+    0.4416305124759674
+  ],
+  "std": [
+    0.25032147765159607,
+    0.24554036557674408,
+    0.2501721978187561
+  ],
+  "note": "1000 unique images per class; macOS Finder duplicate copies (stem ends with ' <n>') excluded to prevent train/val/test leakage. Split is by image; augmentation is applied only in the training DataLoader and never written to disk."
+}

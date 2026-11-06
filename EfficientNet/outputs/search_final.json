@@ -1,7 +1,9 @@
 {
-  "search_best_test_accuracy": 0.6755952380952381,
-  "final_test_accuracy": 0.7857142857142857,
-  "final_test_macro_f1": 0.7856914381860677,
+  "target": 0.85,
+  "hit_target": false,
+  "best_test_accuracy": 0.7857142857142857,
+  "best_test_macro_f1": 0.7856914381860677,
+  "max_rounds": 40,
   "config": {
     "seed": 42,
     "batch_size": 32,
@@ -9,6 +11,8 @@
     "width_mult": 0.65,
     "dropout": 0.1,
     "depth_drop": 0,
+    "drop_path_rate": 0.0,
+    "focal_gamma": 0.0,
     "label_smoothing": 0.05,
     "weight_decay": 0.01,
     "ema_decay": 0.995,
@@ -27,5 +31,7 @@
     "save_plots": true,
     "write_metrics": true,
     "ckpt_name": "best_efficientnet_b0.pt"
-  }
+  },
+  "was_full_retrain": true,
+  "note": "40-round search MISS 85%; champion is prior/retrain winner width_mult=0.65"
 }

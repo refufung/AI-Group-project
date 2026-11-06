@@ -23,26 +23,26 @@
   },
   "class_counts": {
     "train": {
-      "French_bulldog": 785,
-      "Cardigan": 785,
-      "Labrador_retriever": 785,
-      "golden_retriever": 785
+      "French_bulldog": 700,
+      "Cardigan": 700,
+      "Labrador_retriever": 700,
+      "golden_retriever": 700
     },
     "val": {
-      "French_bulldog": 168,
-      "Cardigan": 168,
-      "Labrador_retriever": 168,
-      "golden_retriever": 168
+      "French_bulldog": 150,
+      "Cardigan": 150,
+      "Labrador_retriever": 150,
+      "golden_retriever": 150
     },
     "test": {
-      "French_bulldog": 168,
-      "Cardigan": 168,
-      "Labrador_retriever": 168,
-      "golden_retriever": 168
+      "French_bulldog": 150,
+      "Cardigan": 150,
+      "Labrador_retriever": 150,
+      "golden_retriever": 150
     },
-    "balanced_per_class": 1121
+    "per_class_cap": 1000
   },
-  "note": "Reused cnn/outputs train/val/test CSVs (seed 42) for fair EfficientNet comparison. No leaf-group IDs in Tsinghua low-resolution set; each JPEG is one original image. Split is by image; augmentation is applied only in the training DataLoader and never written to disk.",
+  "note": "Reused cnn/outputs train/val/test CSVs (seed 42) for fair EfficientNet comparison. 1000 unique images per class; macOS Finder duplicate copies (stem ends with ' <n>') excluded to prevent train/val/test leakage. Split is by image; augmentation is applied only in the training DataLoader and never written to disk.",
   "mean": [
     0.485,
     0.456,
@@ -54,6 +54,7 @@
     0.225
   ],
   "normalize": "ImageNet",
-  "source_csvs": "/Users/rexfufung/Desktop/AI Group project /cnn/outputs",
+  "source_csvs": "/Users/rexfufung/Desktop/AI Group project /resBuildScratch/outputs",
+  "image_size": 224,
   "train_augment": "RandAugment(m=5)"
 }

@@ -5,6 +5,11 @@
   "width_mult": 0.65,
   "dropout": 0.1,
   "depth_drop": 0,
+  "depth_mult": 1.0,
+  "se_ratio": 0.25,
+  "drop_path_rate": 0.0,
+  "image_size": 224,
+  "focal_gamma": 0.0,
   "params": 3196342,
   "pretrained": null,
   "optimizer": "AdamW",
@@ -12,9 +17,14 @@
     "seed": 42,
     "batch_size": 32,
     "num_classes": 4,
+    "image_size": 224,
     "width_mult": 0.65,
     "dropout": 0.1,
     "depth_drop": 0,
+    "depth_mult": 1.0,
+    "se_ratio": 0.25,
+    "drop_path_rate": 0.0,
+    "focal_gamma": 0.0,
     "label_smoothing": 0.05,
     "weight_decay": 0.01,
     "ema_decay": 0.995,
@@ -24,58 +34,58 @@
     "mix_prob": 0.5,
     "randaugment": true,
     "randaugment_magnitude": 5,
-    "stage_a_max_epochs": 80,
-    "stage_a_patience": 12,
+    "stage_a_max_epochs": 100,
+    "stage_a_patience": 15,
     "stage_a_lr": 0.001,
-    "stage_b_max_epochs": 30,
-    "stage_b_patience": 8,
+    "stage_b_max_epochs": 40,
+    "stage_b_patience": 10,
     "stage_b_lr": 0.0001,
     "save_plots": true,
     "write_metrics": true,
     "ckpt_name": "best_efficientnet_b0.pt"
   },
   "stage_a": {
-    "max_epochs": 80,
-    "patience": 12,
+    "max_epochs": 100,
+    "patience": 15,
     "lr": 0.001,
-    "best_val_macro_f1": 0.7840760758273914,
-    "best_epoch": 51
+    "best_val_macro_f1": 0.7682337281895677,
+    "best_epoch": 71
   },
   "stage_b": {
-    "max_epochs": 30,
-    "patience": 8,
+    "max_epochs": 40,
+    "patience": 10,
     "lr": 0.0001,
-    "best_val_macro_f1": 0.7815734025949629,
-    "best_epoch": 3
+    "best_val_macro_f1": 0.7706450811380621,
+    "best_epoch": 1
   },
   "test": {
-    "loss": 0.5843359955719539,
-    "accuracy": 0.7857142857142857,
-    "macro_f1": 0.7856914381860677,
+    "loss": 0.6154679036140442,
+    "accuracy": 0.7783333333333333,
+    "macro_f1": 0.7793732764020789,
     "confusion_matrix": [
       [
-        127,
-        10,
-        25,
-        6
+        106,
+        11,
+        23,
+        10
       ],
       [
-        5,
-        133,
-        10,
-        20
+        9,
+        126,
+        7,
+        8
       ],
       [
         21,
-        10,
-        125,
-        12
+        2,
+        114,
+        13
       ],
       [
         8,
-        5,
-        12,
-        143
+        1,
+        20,
+        121
       ]
     ],
     "class_names": [
@@ -87,24 +97,24 @@
   },
   "class_counts": {
     "train": {
-      "French_bulldog": 785,
-      "Cardigan": 785,
-      "Labrador_retriever": 785,
-      "golden_retriever": 785
+      "French_bulldog": 700,
+      "Cardigan": 700,
+      "Labrador_retriever": 700,
+      "golden_retriever": 700
     },
     "val": {
-      "French_bulldog": 168,
-      "Cardigan": 168,
-      "Labrador_retriever": 168,
-      "golden_retriever": 168
+      "French_bulldog": 150,
+      "Cardigan": 150,
+      "Labrador_retriever": 150,
+      "golden_retriever": 150
     },
     "test": {
-      "French_bulldog": 168,
-      "Cardigan": 168,
-      "Labrador_retriever": 168,
-      "golden_retriever": 168
+      "French_bulldog": 150,
+      "Cardigan": 150,
+      "Labrador_retriever": 150,
+      "golden_retriever": 150
     },
-    "balanced_per_class": 1121
+    "per_class_cap": 1000
   },
   "mean": [
     0.485,

@@ -1,0 +1,80 @@
+Matplotlib is building the font cache; this may take a moment.
+device=mps epochs=60 seeds=[42] bs=32 lr=0.001 wd=0.05 warmup=5 mix_prob=0.5
+ResNetSE params: 11.26M
+[seed 42] epoch 001/60 lr=2.00e-04 train_loss=1.4052 train_acc=0.2625 val_loss=1.3868 val_acc=0.2517 val_f1=0.1147 (32s) *
+[seed 42] epoch 002/60 lr=4.00e-04 train_loss=1.3544 train_acc=0.3179 val_loss=1.3860 val_acc=0.2467 val_f1=0.1665 (63s) *
+[seed 42] epoch 003/60 lr=6.00e-04 train_loss=1.3430 train_acc=0.3271 val_loss=1.3849 val_acc=0.2617 val_f1=0.1836 (93s) *
+[seed 42] epoch 004/60 lr=8.00e-04 train_loss=1.3464 train_acc=0.3375 val_loss=1.3835 val_acc=0.2583 val_f1=0.1276 (124s)
+[seed 42] epoch 005/60 lr=1.00e-03 train_loss=1.3320 train_acc=0.3439 val_loss=1.3821 val_acc=0.2500 val_f1=0.1001 (155s)
+[seed 42] epoch 006/60 lr=9.99e-04 train_loss=1.3035 train_acc=0.3754 val_loss=1.3804 val_acc=0.2517 val_f1=0.1034 (186s)
+[seed 42] epoch 007/60 lr=9.97e-04 train_loss=1.3110 train_acc=0.3561 val_loss=1.3788 val_acc=0.2517 val_f1=0.1034 (217s)
+[seed 42] epoch 008/60 lr=9.93e-04 train_loss=1.2898 train_acc=0.3843 val_loss=1.3782 val_acc=0.2517 val_f1=0.1038 (248s)
+[seed 42] epoch 009/60 lr=9.87e-04 train_loss=1.2950 train_acc=0.3911 val_loss=1.3776 val_acc=0.2517 val_f1=0.1039 (280s)
+[seed 42] epoch 010/60 lr=9.80e-04 train_loss=1.2632 train_acc=0.4100 val_loss=1.3766 val_acc=0.2767 val_f1=0.1574 (312s)
+[seed 42] epoch 011/60 lr=9.71e-04 train_loss=1.2711 train_acc=0.4264 val_loss=1.3753 val_acc=0.3017 val_f1=0.1931 (344s) *
+[seed 42] epoch 012/60 lr=9.61e-04 train_loss=1.2578 train_acc=0.4146 val_loss=1.3737 val_acc=0.3067 val_f1=0.2049 (375s) *
+[seed 42] epoch 013/60 lr=9.49e-04 train_loss=1.2344 train_acc=0.4214 val_loss=1.3702 val_acc=0.3050 val_f1=0.2045 (406s)
+[seed 42] epoch 014/60 lr=9.36e-04 train_loss=1.2083 train_acc=0.4543 val_loss=1.3667 val_acc=0.3100 val_f1=0.2102 (437s) *
+[seed 42] epoch 015/60 lr=9.21e-04 train_loss=1.2166 train_acc=0.4289 val_loss=1.3601 val_acc=0.3117 val_f1=0.2134 (469s) *
+[seed 42] epoch 016/60 lr=9.05e-04 train_loss=1.1897 train_acc=0.4539 val_loss=1.3491 val_acc=0.3183 val_f1=0.2229 (501s) *
+[seed 42] epoch 017/60 lr=8.87e-04 train_loss=1.1694 train_acc=0.4982 val_loss=1.3389 val_acc=0.3183 val_f1=0.2272 (533s) *
+[seed 42] epoch 018/60 lr=8.69e-04 train_loss=1.1537 train_acc=0.4939 val_loss=1.3254 val_acc=0.3217 val_f1=0.2332 (563s) *
+[seed 42] epoch 019/60 lr=8.49e-04 train_loss=1.1584 train_acc=0.4696 val_loss=1.3100 val_acc=0.3283 val_f1=0.2480 (594s) *
+[seed 42] epoch 020/60 lr=8.28e-04 train_loss=1.1396 train_acc=0.5011 val_loss=1.2936 val_acc=0.3450 val_f1=0.2799 (624s) *
+[seed 42] epoch 021/60 lr=8.06e-04 train_loss=1.1353 train_acc=0.4996 val_loss=1.2754 val_acc=0.3650 val_f1=0.3078 (655s) *
+[seed 42] epoch 022/60 lr=7.82e-04 train_loss=1.1578 train_acc=0.5004 val_loss=1.2568 val_acc=0.3817 val_f1=0.3260 (686s) *
+[seed 42] epoch 023/60 lr=7.58e-04 train_loss=1.1103 train_acc=0.5454 val_loss=1.2380 val_acc=0.4050 val_f1=0.3558 (717s) *
+[seed 42] epoch 024/60 lr=7.34e-04 train_loss=1.1120 train_acc=0.5354 val_loss=1.2189 val_acc=0.4317 val_f1=0.3857 (748s) *
+[seed 42] epoch 025/60 lr=7.08e-04 train_loss=1.0895 train_acc=0.5493 val_loss=1.1988 val_acc=0.4450 val_f1=0.3999 (778s) *
+[seed 42] epoch 026/60 lr=6.82e-04 train_loss=1.0926 train_acc=0.5279 val_loss=1.1794 val_acc=0.4650 val_f1=0.4215 (809s) *
+[seed 42] epoch 027/60 lr=6.55e-04 train_loss=1.0722 train_acc=0.5325 val_loss=1.1611 val_acc=0.4733 val_f1=0.4278 (842s) *
+[seed 42] epoch 028/60 lr=6.27e-04 train_loss=1.0226 train_acc=0.5761 val_loss=1.1458 val_acc=0.4783 val_f1=0.4346 (874s) *
+[seed 42] epoch 029/60 lr=6.00e-04 train_loss=1.0436 train_acc=0.5671 val_loss=1.1304 val_acc=0.4833 val_f1=0.4426 (905s) *
+[seed 42] epoch 030/60 lr=5.71e-04 train_loss=1.0590 train_acc=0.5468 val_loss=1.1131 val_acc=0.5017 val_f1=0.4656 (937s) *
+[seed 42] epoch 031/60 lr=5.43e-04 train_loss=1.0484 train_acc=0.5529 val_loss=1.0970 val_acc=0.5117 val_f1=0.4801 (968s) *
+[seed 42] epoch 032/60 lr=5.15e-04 train_loss=1.0307 train_acc=0.5782 val_loss=1.0810 val_acc=0.5100 val_f1=0.4803 (999s) *
+[seed 42] epoch 033/60 lr=4.86e-04 train_loss=1.0124 train_acc=0.5729 val_loss=1.0698 val_acc=0.5267 val_f1=0.4999 (1030s) *
+[seed 42] epoch 034/60 lr=4.58e-04 train_loss=1.0108 train_acc=0.5964 val_loss=1.0522 val_acc=0.5300 val_f1=0.5024 (1061s) *
+[seed 42] epoch 035/60 lr=4.29e-04 train_loss=1.0062 train_acc=0.5675 val_loss=1.0369 val_acc=0.5350 val_f1=0.5069 (1093s) *
+[seed 42] epoch 036/60 lr=4.01e-04 train_loss=0.9987 train_acc=0.5754 val_loss=1.0207 val_acc=0.5467 val_f1=0.5193 (1130s) *
+[seed 42] epoch 037/60 lr=3.73e-04 train_loss=0.9563 train_acc=0.6182 val_loss=1.0030 val_acc=0.5517 val_f1=0.5264 (1167s) *
+[seed 42] epoch 038/60 lr=3.46e-04 train_loss=0.9417 train_acc=0.6314 val_loss=0.9843 val_acc=0.5583 val_f1=0.5331 (1201s) *
+[seed 42] epoch 039/60 lr=3.19e-04 train_loss=0.9821 train_acc=0.6036 val_loss=0.9658 val_acc=0.5650 val_f1=0.5425 (1234s) *
+[seed 42] epoch 040/60 lr=2.93e-04 train_loss=0.9275 train_acc=0.6225 val_loss=0.9461 val_acc=0.5717 val_f1=0.5502 (1269s) *
+[seed 42] epoch 041/60 lr=2.67e-04 train_loss=0.9343 train_acc=0.6471 val_loss=0.9287 val_acc=0.5900 val_f1=0.5701 (1302s) *
+[seed 42] epoch 042/60 lr=2.42e-04 train_loss=0.9358 train_acc=0.6450 val_loss=0.9106 val_acc=0.6067 val_f1=0.5895 (1334s) *
+[seed 42] epoch 043/60 lr=2.18e-04 train_loss=0.9591 train_acc=0.6314 val_loss=0.8932 val_acc=0.6133 val_f1=0.5969 (1366s) *
+[seed 42] epoch 044/60 lr=1.95e-04 train_loss=0.9256 train_acc=0.6379 val_loss=0.8750 val_acc=0.6317 val_f1=0.6163 (1396s) *
+[seed 42] epoch 045/60 lr=1.73e-04 train_loss=0.9035 train_acc=0.6393 val_loss=0.8562 val_acc=0.6433 val_f1=0.6286 (1426s) *
+[seed 42] epoch 046/60 lr=1.52e-04 train_loss=0.9318 train_acc=0.6286 val_loss=0.8377 val_acc=0.6517 val_f1=0.6370 (1457s) *
+[seed 42] epoch 047/60 lr=1.32e-04 train_loss=0.9313 train_acc=0.6436 val_loss=0.8205 val_acc=0.6600 val_f1=0.6460 (1488s) *
+[seed 42] epoch 048/60 lr=1.13e-04 train_loss=0.8854 train_acc=0.6446 val_loss=0.8045 val_acc=0.6733 val_f1=0.6609 (1520s) *
+[seed 42] epoch 049/60 lr=9.57e-05 train_loss=0.8987 train_acc=0.6729 val_loss=0.7898 val_acc=0.6917 val_f1=0.6810 (1552s) *
+[seed 42] epoch 050/60 lr=7.95e-05 train_loss=0.9055 train_acc=0.6636 val_loss=0.7750 val_acc=0.6983 val_f1=0.6886 (1584s) *
+[seed 42] epoch 051/60 lr=6.48e-05 train_loss=0.9046 train_acc=0.6264 val_loss=0.7620 val_acc=0.7133 val_f1=0.7047 (1617s) *
+[seed 42] epoch 052/60 lr=5.14e-05 train_loss=0.8975 train_acc=0.6493 val_loss=0.7492 val_acc=0.7117 val_f1=0.7033 (1648s)
+[seed 42] epoch 053/60 lr=3.96e-05 train_loss=0.8773 train_acc=0.6982 val_loss=0.7376 val_acc=0.7133 val_f1=0.7054 (1679s) *
+[seed 42] epoch 054/60 lr=2.92e-05 train_loss=0.8714 train_acc=0.6286 val_loss=0.7269 val_acc=0.7183 val_f1=0.7103 (1710s) *
+[seed 42] epoch 055/60 lr=2.03e-05 train_loss=0.9124 train_acc=0.6582 val_loss=0.7173 val_acc=0.7167 val_f1=0.7087 (1740s)
+[seed 42] epoch 056/60 lr=1.31e-05 train_loss=0.9009 train_acc=0.6711 val_loss=0.7087 val_acc=0.7217 val_f1=0.7145 (1770s) *
+[seed 42] epoch 057/60 lr=7.38e-06 train_loss=0.8947 train_acc=0.6857 val_loss=0.7012 val_acc=0.7217 val_f1=0.7143 (1801s)
+[seed 42] epoch 058/60 lr=3.30e-06 train_loss=0.8732 train_acc=0.6729 val_loss=0.6943 val_acc=0.7333 val_f1=0.7272 (1831s) *
+[seed 42] epoch 059/60 lr=8.34e-07 train_loss=0.8925 train_acc=0.6432 val_loss=0.6880 val_acc=0.7350 val_f1=0.7291 (1862s) *
+[seed 42] epoch 060/60 lr=1.05e-10 train_loss=0.8925 train_acc=0.6661 val_loss=0.6826 val_acc=0.7367 val_f1=0.7308 (1893s) *
+[seed 42] saved /Users/rexfufung/Desktop/AI Group project /resBuildScratch/outputs/best_resnet_se_seed42.pt (best val macro-F1=0.7308 @ epoch 60)
+Traceback (most recent call last):
+  File "/Users/rexfufung/Desktop/AI Group project /resBuildScratch/src/train.py", line 443, in <module>
+    main()
+    ~~~~^^
+  File "/Users/rexfufung/Desktop/AI Group project /resBuildScratch/src/train.py", line 426, in main
+    eval_results = run_final_eval(args, device)
+  File "/Users/rexfufung/Desktop/AI Group project /resBuildScratch/src/train.py", line 361, in run_final_eval
+    probs, labels = predict_probs(model, test_loader, device, tta_loader=tta_test)
+                    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rexfufung/Desktop/AI Group project /cnn/.venv/lib/python3.14/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/Users/rexfufung/Desktop/AI Group project /resBuildScratch/src/train.py", line 173, in predict_probs
+    views = np.stack(probs, axis=0)  # (n_views, n, C) — n_views=2 if tta_loader else 1
+  File "/Users/rexfufung/Desktop/AI Group project /cnn/.venv/lib/python3.14/site-packages/numpy/_core/shape_base.py", line 458, in stack
+    raise ValueError('all input arrays must have the same shape')
+ValueError: all input arrays must have the same shape

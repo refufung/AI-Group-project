@@ -21,6 +21,13 @@ IMAGENET_STD = [0.229, 0.224, 0.225]
 class DogBreedDataset(Dataset):
     def __init__(self, csv_path: Path | str, transform=None):
         self.df = pd.read_csv(csv_path)
+        exists = self.df["path"].map(lambda p: Path(p).is_file())
+        n_missing = int((~exists).sum())
+        if n_missing:
+            print(f"Warning: dropping {n_missing} missing paths from {csv_path}")
+            self.df = self.df.loc[exists].reset_index(drop=True)
+        if len(self.df) == 0:
+            raise FileNotFoundError(f"No readable images in {csv_path}")
         self.transform = transform
 
     def __len__(self) -> int:
@@ -39,11 +46,13 @@ def build_transforms(
     train: bool,
     use_randaugment: bool = True,
     randaugment_magnitude: int = 5,
+    image_size: int = 224,
 ) -> transforms.Compose:
+    size = int(image_size)
     normalize = transforms.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD)
     if train:
         ops: list = [
-            transforms.RandomResizedCrop(224, scale=(0.7, 1.0)),
+            transforms.RandomResizedCrop(size, scale=(0.7, 1.0)),
             transforms.RandomHorizontalFlip(),
         ]
         if use_randaugment:
@@ -60,7 +69,7 @@ def build_transforms(
         return transforms.Compose(ops)
     return transforms.Compose(
         [
-            transforms.Resize((224, 224)),
+            transforms.Resize((size, size)),
             transforms.ToTensor(),
             normalize,
         ]
@@ -72,6 +81,7 @@ def make_loaders(
     num_workers: int = 0,
     use_randaugment: bool = True,
     randaugment_magnitude: int = 5,
+    image_size: int = 224,
 ) -> tuple[DataLoader, DataLoader, DataLoader]:
     train_csv = OUTPUT_DIR / "train.csv"
     val_csv = OUTPUT_DIR / "val.csv"
@@ -85,6 +95,7 @@ def make_loaders(
     meta["mean"] = IMAGENET_MEAN
     meta["std"] = IMAGENET_STD
     meta["normalize"] = "ImageNet"
+    meta["image_size"] = int(image_size)
     meta["train_augment"] = (
         f"RandAugment(m={randaugment_magnitude})" if use_randaugment else "ColorJitter"
     )
@@ -96,10 +107,17 @@ def make_loaders(
             train=True,
             use_randaugment=use_randaugment,
             randaugment_magnitude=randaugment_magnitude,
+            image_size=image_size,
         ),
     )
-    val_ds = DogBreedDataset(val_csv, transform=build_transforms(train=False))
-    test_ds = DogBreedDataset(test_csv, transform=build_transforms(train=False))
+    val_ds = DogBreedDataset(
+        val_csv,
+        transform=build_transforms(train=False, image_size=image_size),
+    )
+    test_ds = DogBreedDataset(
+        test_csv,
+        transform=build_transforms(train=False, image_size=image_size),
+    )
 
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=num_workers)
     val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False, num_workers=num_workers)

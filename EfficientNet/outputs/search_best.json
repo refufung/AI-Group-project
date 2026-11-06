@@ -1,6 +1,6 @@
 {
-  "test_accuracy": 0.6755952380952381,
-  "test_macro_f1": 0.6700863306473002,
+  "test_accuracy": 0.7857142857142857,
+  "test_macro_f1": 0.7856914381860677,
   "config": {
     "seed": 42,
     "batch_size": 32,
@@ -8,6 +8,8 @@
     "width_mult": 0.65,
     "dropout": 0.1,
     "depth_drop": 0,
+    "drop_path_rate": 0.0,
+    "focal_gamma": 0.0,
     "label_smoothing": 0.05,
     "weight_decay": 0.01,
     "ema_decay": 0.995,
@@ -17,15 +19,16 @@
     "mix_prob": 0.5,
     "randaugment": true,
     "randaugment_magnitude": 5,
-    "stage_a_max_epochs": 30,
-    "stage_a_patience": 6,
+    "stage_a_max_epochs": 80,
+    "stage_a_patience": 12,
     "stage_a_lr": 0.001,
-    "stage_b_max_epochs": 15,
-    "stage_b_patience": 5,
+    "stage_b_max_epochs": 30,
+    "stage_b_patience": 8,
     "stage_b_lr": 0.0001,
-    "save_plots": false,
-    "write_metrics": false,
+    "save_plots": true,
+    "write_metrics": true,
     "ckpt_name": "best_efficientnet_b0.pt"
   },
-  "round": 8
+  "round": 0,
+  "was_full_retrain": true
 }

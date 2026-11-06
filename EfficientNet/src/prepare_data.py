@@ -7,7 +7,9 @@ import shutil
 from pathlib import Path
 
 EFF_ROOT = Path(__file__).resolve().parents[1]
-CNN_OUTPUTS = EFF_ROOT.parent / "cnn" / "outputs"
+# New shared 1000-unique-per-class split lives in the resBuildScratch track
+# (previously: cnn/outputs with the 1121/class split).
+CNN_OUTPUTS = EFF_ROOT.parent / "resBuildScratch" / "outputs"
 OUTPUT_DIR = EFF_ROOT / "outputs"
 
 IMAGENET_MEAN = [0.485, 0.456, 0.406]

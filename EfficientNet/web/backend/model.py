@@ -17,6 +17,12 @@ def _round_channels(ch: int, width_mult: float, divisor: int = 8) -> int:
     return ch
 
 
+def _round_repeats(n: int, depth_mult: float) -> int:
+    if abs(depth_mult - 1.0) < 1e-9:
+        return max(1, int(n))
+    return max(1, int(math.ceil(n * depth_mult)))
+
+
 class DropPath(nn.Module):
     """Stochastic depth (per-sample)."""
 
@@ -130,23 +136,26 @@ class EfficientNetB0(nn.Module):
         dropout: float = 0.2,
         width_mult: float = 1.0,
         depth_drop: int = 0,
+        depth_mult: float = 1.0,
+        se_ratio: float = 0.25,
         drop_path_rate: float = 0.0,
     ):
         super().__init__()
         self.width_mult = width_mult
         self.depth_drop = max(0, int(depth_drop))
+        self.depth_mult = float(depth_mult)
+        self.se_ratio = float(se_ratio)
         self.dropout_p = dropout
         self.drop_path_rate = float(drop_path_rate)
         stem_ch = _round_channels(32, width_mult)
         head_ch = _round_channels(1280, width_mult)
 
-        # Count MBConv blocks for linear DropPath schedule
         deep_stage_idx = 5
         block_specs: list[tuple[int, int, int, int, int]] = []
         for stage_i, (expand, out_ch, n_blocks, stride, k) in enumerate(_B0_BLOCKS):
-            n = n_blocks
+            n = _round_repeats(n_blocks, self.depth_mult)
             if stage_i == deep_stage_idx and self.depth_drop > 0:
-                n = max(1, n_blocks - self.depth_drop)
+                n = max(1, n - self.depth_drop)
             for i in range(n):
                 s = stride if i == 0 else 1
                 block_specs.append((expand, out_ch, s, k, stage_i))
@@ -164,6 +173,7 @@ class EfficientNetB0(nn.Module):
                     expand_ratio=expand,
                     kernel_size=k,
                     stride=stride,
+                    se_ratio=self.se_ratio,
                     drop_path=dp,
                 )
             )
@@ -203,6 +213,8 @@ def build_efficientnet_b0(
     width_mult: float = 0.5,
     dropout: float = 0.2,
     depth_drop: int = 0,
+    depth_mult: float = 1.0,
+    se_ratio: float = 0.25,
     drop_path_rate: float = 0.0,
 ) -> EfficientNetB0:
     """Build from-scratch EfficientNet-B0 (no ImageNet weights)."""
@@ -216,6 +228,8 @@ def build_efficientnet_b0(
         dropout=dropout,
         width_mult=width_mult,
         depth_drop=depth_drop,
+        depth_mult=depth_mult,
+        se_ratio=se_ratio,
         drop_path_rate=drop_path_rate,
     )
 

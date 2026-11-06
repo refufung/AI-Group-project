@@ -18,7 +18,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
-from torch.optim.lr_scheduler import CosineAnnealingLR
+from torch.optim.lr_scheduler import CosineAnnealingLR, CosineAnnealingWarmRestarts
 from torch.utils.data import DataLoader
 
 from dataset import IMAGENET_MEAN, IMAGENET_STD, make_loaders
@@ -34,10 +34,13 @@ class TrainConfig:
     seed: int = 42
     batch_size: int = 32
     num_classes: int = 4
+    image_size: int = 224
     # Defaults from continuous_improve winner (final full retrain ~78.6%)
     width_mult: float = 0.65
     dropout: float = 0.1
     depth_drop: int = 0
+    depth_mult: float = 1.0
+    se_ratio: float = 0.25
     drop_path_rate: float = 0.0
     focal_gamma: float = 0.0  # 0 = soft CE; 1.5 = soft focal
     label_smoothing: float = 0.05
@@ -49,11 +52,11 @@ class TrainConfig:
     mix_prob: float = 0.5
     randaugment: bool = True
     randaugment_magnitude: int = 5
-    stage_a_max_epochs: int = 80
-    stage_a_patience: int = 12
+    stage_a_max_epochs: int = 100
+    stage_a_patience: int = 15
     stage_a_lr: float = 1e-3
-    stage_b_max_epochs: int = 30
-    stage_b_patience: int = 8
+    stage_b_max_epochs: int = 40
+    stage_b_patience: int = 10
     stage_b_lr: float = 1e-4
     save_plots: bool = True
     write_metrics: bool = True
@@ -61,14 +64,16 @@ class TrainConfig:
 
 
 def search_config(**overrides: Any) -> TrainConfig:
-    """Shorter Stage A/B budgets for continuous search rounds."""
+    """Medium Stage A/B budgets for continuous search rounds."""
     base = TrainConfig(
-        stage_a_max_epochs=30,
-        stage_a_patience=6,
-        stage_b_max_epochs=15,
-        stage_b_patience=5,
+        stage_a_max_epochs=50,
+        stage_a_patience=8,
+        stage_b_max_epochs=20,
+        stage_b_patience=6,
         save_plots=False,
         write_metrics=False,
+        # Never overwrite the official champion checkpoint during short search.
+        ckpt_name="search_candidate.pt",
     )
     return replace(base, **overrides) if overrides else base
 
@@ -355,15 +360,17 @@ def train_and_eval(cfg: TrainConfig, output_dir: Path | None = None) -> dict[str
     print(f"Device: {device}")
     print(
         f"Config: width={cfg.width_mult} drop={cfg.dropout} depth_drop={cfg.depth_drop} "
-        f"drop_path={cfg.drop_path_rate} focal_g={cfg.focal_gamma} "
+        f"depth_mult={cfg.depth_mult} se={cfg.se_ratio} drop_path={cfg.drop_path_rate} "
+        f"focal_g={cfg.focal_gamma} img={cfg.image_size} "
         f"lrA={cfg.stage_a_lr} wd={cfg.weight_decay} mix={cfg.mix_prob} "
-        f"ra_m={cfg.randaugment_magnitude} bs={cfg.batch_size}"
+        f"ra_m={cfg.randaugment_magnitude} bs={cfg.batch_size} seed={cfg.seed}"
     )
 
     train_loader, val_loader, test_loader = make_loaders(
         batch_size=cfg.batch_size,
         use_randaugment=cfg.randaugment,
         randaugment_magnitude=cfg.randaugment_magnitude,
+        image_size=cfg.image_size,
     )
 
     model = build_efficientnet_b0(
@@ -372,6 +379,8 @@ def train_and_eval(cfg: TrainConfig, output_dir: Path | None = None) -> dict[str
         width_mult=cfg.width_mult,
         dropout=cfg.dropout,
         depth_drop=cfg.depth_drop,
+        depth_mult=cfg.depth_mult,
+        se_ratio=cfg.se_ratio,
         drop_path_rate=cfg.drop_path_rate,
     ).to(device)
     set_backbone_trainable(model, True)
@@ -393,7 +402,8 @@ def train_and_eval(cfg: TrainConfig, output_dir: Path | None = None) -> dict[str
     opt_a = torch.optim.AdamW(
         model.parameters(), lr=cfg.stage_a_lr, weight_decay=cfg.weight_decay
     )
-    sched_a = CosineAnnealingLR(opt_a, T_max=cfg.stage_a_max_epochs)
+    t0 = max(10, cfg.stage_a_max_epochs // 4)
+    sched_a = CosineAnnealingWarmRestarts(opt_a, T_0=t0, T_mult=2)
     best_a, epoch_a, state_a = train_epochs(
         model,
         train_loader,
@@ -448,7 +458,10 @@ def train_and_eval(cfg: TrainConfig, output_dir: Path | None = None) -> dict[str
         "width_mult": cfg.width_mult,
         "dropout": cfg.dropout,
         "depth_drop": cfg.depth_drop,
+        "depth_mult": cfg.depth_mult,
+        "se_ratio": cfg.se_ratio,
         "drop_path_rate": cfg.drop_path_rate,
+        "image_size": cfg.image_size,
         "focal_gamma": cfg.focal_gamma,
         "pretrained": None,
         "config": asdict(cfg),
@@ -479,7 +492,10 @@ def train_and_eval(cfg: TrainConfig, output_dir: Path | None = None) -> dict[str
         "width_mult": cfg.width_mult,
         "dropout": cfg.dropout,
         "depth_drop": cfg.depth_drop,
+        "depth_mult": cfg.depth_mult,
+        "se_ratio": cfg.se_ratio,
         "drop_path_rate": cfg.drop_path_rate,
+        "image_size": cfg.image_size,
         "focal_gamma": cfg.focal_gamma,
         "params": n_params,
         "pretrained": None,

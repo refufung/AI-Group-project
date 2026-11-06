@@ -1,4 +1,4 @@
-"""FastAPI inference server for the trained SmallCNN dog-breed classifier."""
+"""FastAPI inference server for the dog-breed classifier (ResNetSE champion, SmallCNN legacy)."""
 
 from __future__ import annotations
 
@@ -14,11 +14,12 @@ from fastapi.staticfiles import StaticFiles
 from PIL import Image
 from torchvision import transforms
 
-from model import SmallCNN
+from model import build_model
 
 CNN_ROOT = Path(__file__).resolve().parents[2]
 OUTPUTS = CNN_ROOT / "outputs"
-CKPT_PATH = OUTPUTS / "best_small_cnn.pt"
+# Prefer the new from-scratch ResNetSE champion; fall back to the legacy SmallCNN.
+CKPT_CANDIDATES = [OUTPUTS / "best_resnet_se.pt", OUTPUTS / "best_small_cnn.pt"]
 META_PATH = OUTPUTS / "split_meta.json"
 FRONTEND_DIST = CNN_ROOT / "web" / "frontend" / "dist"
 
@@ -65,28 +66,32 @@ def infer_true_label(relative_path: str | None, class_names: list[str]) -> str |
 
 class Predictor:
     def __init__(self) -> None:
-        if not CKPT_PATH.is_file():
-            raise FileNotFoundError(f"Checkpoint not found: {CKPT_PATH}")
-        if not META_PATH.is_file():
-            raise FileNotFoundError(f"split_meta.json not found: {META_PATH}")
+        self.ckpt_path = next((p for p in CKPT_CANDIDATES if p.is_file()), None)
+        if self.ckpt_path is None:
+            raise FileNotFoundError(f"No checkpoint found in: {CKPT_CANDIDATES}")
 
-        with META_PATH.open(encoding="utf-8") as f:
-            meta = json.load(f)
+        meta: dict = {}
+        if META_PATH.is_file():
+            with META_PATH.open(encoding="utf-8") as f:
+                meta = json.load(f)
 
-        ckpt = torch.load(CKPT_PATH, map_location="cpu", weights_only=False)
+        ckpt = torch.load(self.ckpt_path, map_location="cpu", weights_only=False)
         self.class_names: list[str] = list(
             ckpt.get("class_names")
             or ["French_bulldog", "Cardigan", "Labrador_retriever", "golden_retriever"]
         )
-        dropout = float(ckpt.get("dropout", 0.3))
+        arch = str(ckpt.get("arch", "small_cnn"))
+        cfg = ckpt.get("config") or {}
+        dropout = float(ckpt.get("dropout", cfg.get("dropout", 0.3)))
         self.device = get_device()
-        self.model = SmallCNN(num_classes=len(self.class_names), dropout=dropout)
+        self.model = build_model(arch, num_classes=len(self.class_names), dropout=dropout)
         self.model.load_state_dict(ckpt["state_dict"])
         self.model.to(self.device)
         self.model.eval()
 
-        mean = meta["mean"]
-        std = meta["std"]
+        # Normalization stats live inside new checkpoints; fall back to split_meta.json.
+        mean = ckpt.get("mean") or meta["mean"]
+        std = ckpt.get("std") or meta["std"]
         self.transform = transforms.Compose(
             [
                 transforms.Resize((224, 224)),
@@ -150,7 +155,7 @@ def health() -> dict:
         "status": "ok",
         "device": str(predictor.device),
         "class_names": predictor.class_names,
-        "checkpoint": str(CKPT_PATH),
+        "checkpoint": str(predictor.ckpt_path),
         "meta": predictor.meta,
     }
 

@@ -80,13 +80,18 @@ class Predictor:
         width_mult = float(ckpt.get("width_mult", 0.5))
         dropout = float(ckpt.get("dropout", 0.2))
         depth_drop = int(ckpt.get("depth_drop", 0))
+        depth_mult = float(ckpt.get("depth_mult", 1.0))
+        se_ratio = float(ckpt.get("se_ratio", 0.25))
         drop_path_rate = float(ckpt.get("drop_path_rate", 0.0))
+        image_size = int(ckpt.get("image_size", meta.get("image_size", 224)))
         self.model = build_efficientnet_b0(
             num_classes=len(self.class_names),
             pretrained=False,
             width_mult=width_mult,
             dropout=dropout,
             depth_drop=depth_drop,
+            depth_mult=depth_mult,
+            se_ratio=se_ratio,
             drop_path_rate=drop_path_rate,
         )
         self.model.load_state_dict(ckpt["state_dict"])
@@ -97,7 +102,7 @@ class Predictor:
         std = ckpt.get("std") or meta.get("std") or [0.229, 0.224, 0.225]
         self.transform = transforms.Compose(
             [
-                transforms.Resize((224, 224)),
+                transforms.Resize((image_size, image_size)),
                 transforms.ToTensor(),
                 transforms.Normalize(mean=mean, std=std),
             ]
