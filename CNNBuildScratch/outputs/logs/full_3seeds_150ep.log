@@ -1,5 +1,5 @@
 device=mps epochs=150 seeds=[42, 1337, 2025] bs=32 lr=0.001 wd=0.05 warmup=5 mix_prob=0.5
-ResNetSE params: 11.26M
+CNNSE params: 11.26M
 [seed 42] epoch 001/150 lr=2.00e-04 train_loss=1.4052 train_acc=0.2625 val_loss=1.3868 val_acc=0.2517 val_f1=0.1147 (32s) *
 [seed 42] epoch 002/150 lr=4.00e-04 train_loss=1.3544 train_acc=0.3179 val_loss=1.3860 val_acc=0.2467 val_f1=0.1665 (63s) *
 [seed 42] epoch 003/150 lr=6.00e-04 train_loss=1.3430 train_acc=0.3271 val_loss=1.3849 val_acc=0.2617 val_f1=0.1836 (94s) *
@@ -150,7 +150,7 @@ ResNetSE params: 11.26M
 [seed 42] epoch 148/150 lr=4.75e-07 train_loss=0.6204 train_acc=0.7886 val_loss=0.5290 val_acc=0.8100 val_f1=0.8093 (4519s)
 [seed 42] epoch 149/150 lr=1.20e-07 train_loss=0.6757 train_acc=0.7229 val_loss=0.5294 val_acc=0.8117 val_f1=0.8111 (4550s)
 [seed 42] epoch 150/150 lr=1.52e-11 train_loss=0.6509 train_acc=0.7350 val_loss=0.5294 val_acc=0.8117 val_f1=0.8111 (4580s)
-[seed 42] saved /Users/rexfufung/Desktop/AI Group project /resBuildScratch/outputs/best_resnet_se_seed42.pt (best val macro-F1=0.8241 @ epoch 81)
+[seed 42] saved /Users/rexfufung/Desktop/AI Group project /CNNBuildScratch/outputs/best_CNN_se_seed42.pt (best val macro-F1=0.8241 @ epoch 81)
 [seed 1337] epoch 001/150 lr=2.00e-04 train_loss=1.3968 train_acc=0.2696 val_loss=1.3867 val_acc=0.2500 val_f1=0.1000 (31s) *
 [seed 1337] epoch 002/150 lr=4.00e-04 train_loss=1.3489 train_acc=0.3250 val_loss=1.3860 val_acc=0.2500 val_f1=0.1000 (61s)
 [seed 1337] epoch 003/150 lr=6.00e-04 train_loss=1.3475 train_acc=0.3379 val_loss=1.3855 val_acc=0.2500 val_f1=0.1000 (91s)
@@ -301,7 +301,7 @@ ResNetSE params: 11.26M
 [seed 1337] epoch 148/150 lr=4.75e-07 train_loss=0.6556 train_acc=0.7893 val_loss=0.4488 val_acc=0.8600 val_f1=0.8611 (4459s)
 [seed 1337] epoch 149/150 lr=1.20e-07 train_loss=0.6634 train_acc=0.7979 val_loss=0.4492 val_acc=0.8617 val_f1=0.8626 (4489s)
 [seed 1337] epoch 150/150 lr=1.52e-11 train_loss=0.6176 train_acc=0.7986 val_loss=0.4493 val_acc=0.8617 val_f1=0.8626 (4519s)
-[seed 1337] saved /Users/rexfufung/Desktop/AI Group project /resBuildScratch/outputs/best_resnet_se_seed1337.pt (best val macro-F1=0.8673 @ epoch 131)
+[seed 1337] saved /Users/rexfufung/Desktop/AI Group project /CNNBuildScratch/outputs/best_CNN_se_seed1337.pt (best val macro-F1=0.8673 @ epoch 131)
 [seed 2025] epoch 001/150 lr=2.00e-04 train_loss=1.3884 train_acc=0.2789 val_loss=1.3879 val_acc=0.2567 val_f1=0.1706 (31s) *
 [seed 2025] epoch 002/150 lr=4.00e-04 train_loss=1.3606 train_acc=0.3286 val_loss=1.3872 val_acc=0.2467 val_f1=0.1218 (61s)
 [seed 2025] epoch 003/150 lr=6.00e-04 train_loss=1.3370 train_acc=0.3504 val_loss=1.3866 val_acc=0.2517 val_f1=0.1071 (91s)
@@ -452,9 +452,9 @@ ResNetSE params: 11.26M
 [seed 2025] epoch 148/150 lr=4.75e-07 train_loss=0.6556 train_acc=0.7832 val_loss=0.4964 val_acc=0.8300 val_f1=0.8291 (4464s)
 [seed 2025] epoch 149/150 lr=1.20e-07 train_loss=0.6598 train_acc=0.7561 val_loss=0.4968 val_acc=0.8300 val_f1=0.8291 (4494s)
 [seed 2025] epoch 150/150 lr=1.52e-11 train_loss=0.6330 train_acc=0.7764 val_loss=0.4968 val_acc=0.8300 val_f1=0.8291 (4524s)
-[seed 2025] saved /Users/rexfufung/Desktop/AI Group project /resBuildScratch/outputs/best_resnet_se_seed2025.pt (best val macro-F1=0.8335 @ epoch 113)
+[seed 2025] saved /Users/rexfufung/Desktop/AI Group project /CNNBuildScratch/outputs/best_CNN_se_seed2025.pt (best val macro-F1=0.8335 @ epoch 113)
 [eval] seed 42 single+TTA test acc=0.7900 f1=0.7901
 [eval] seed 1337 single+TTA test acc=0.8467 f1=0.8468
 [eval] seed 2025 single+TTA test acc=0.8417 f1=0.8418
 [eval] ENSEMBLE+TTA test acc=0.8283 f1=0.8284
-Wrote /Users/rexfufung/Desktop/AI Group project /resBuildScratch/outputs/metrics.json
+Wrote /Users/rexfufung/Desktop/AI Group project /CNNBuildScratch/outputs/metrics.json

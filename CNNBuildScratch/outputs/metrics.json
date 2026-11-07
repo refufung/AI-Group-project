@@ -16,9 +16,7 @@
     "cutmix_alpha": 1.0,
     "mix_prob": 0.5,
     "ema_decay": 0.999,
-    "num_workers": 0,
-    "eval_only": false,
-    "smoke": false
+    "trained_in_notebook": true
   },
   "device": "mps",
   "class_counts": {
@@ -47,34 +45,20 @@
       "seed": 42,
       "best_val_macro_f1": 0.8240796677097664,
       "best_epoch": 81,
-      "train_seconds": 4580.46585893631
-    },
-    {
-      "seed": 1337,
-      "best_val_macro_f1": 0.8672960557337507,
-      "best_epoch": 131,
-      "train_seconds": 4519.06775188446
-    },
-    {
-      "seed": 2025,
-      "best_val_macro_f1": 0.833452805350106,
-      "best_epoch": 113,
-      "train_seconds": 4523.899156093597
-    }
-  ],
-  "seeds": [
-    {
-      "seed": 42,
       "test_tta_acc": 0.79,
       "test_tta_macro_f1": 0.7901148875770057
     },
     {
       "seed": 1337,
+      "best_val_macro_f1": 0.8672960557337507,
+      "best_epoch": 131,
       "test_tta_acc": 0.8466666666666667,
       "test_tta_macro_f1": 0.846763822264686
     },
     {
       "seed": 2025,
+      "best_val_macro_f1": 0.833452805350106,
+      "best_epoch": 113,
       "test_tta_acc": 0.8416666666666667,
       "test_tta_macro_f1": 0.8417614160089701
     }

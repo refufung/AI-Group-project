@@ -1,4 +1,4 @@
-"""ResNetSE: ResNet-18-style residual CNN with squeeze-excitation, trained from scratch.
+"""CNNSE: 18-layer-style residual CNN with squeeze-excitation, trained from scratch.
 
 Design (224x224 input, no pretrained weights):
   stem conv3x3(s2)-BN-ReLU + MaxPool(s2)          224 -> 56
@@ -58,7 +58,7 @@ class BasicBlockSE(nn.Module):
         return F.relu(out + identity, inplace=True)
 
 
-class ResNetSE(nn.Module):
+class CNNSE(nn.Module):
     def __init__(
         self,
         num_classes: int = 4,
@@ -113,7 +113,7 @@ def count_params(model: nn.Module) -> int:
 
 
 if __name__ == "__main__":
-    net = ResNetSE(num_classes=4)
+    net = CNNSE(num_classes=4)
     x = torch.randn(2, 3, 224, 224)
     print("out:", net(x).shape)
     print(f"params: {count_params(net) / 1e6:.2f}M")

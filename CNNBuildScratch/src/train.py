@@ -1,4 +1,4 @@
-"""Train ResNetSE from scratch on the 1000/class split; TTA + ensemble one-shot test.
+"""Train CNNSE from scratch on the 1000/class split; TTA + ensemble one-shot test.
 
 Recipe:
   AdamW (wd on conv/linear weights only) + per-step linear warmup -> cosine to 0
@@ -39,7 +39,7 @@ from dataset import (
     build_eval_tta_transform,
     make_loaders,
 )
-from model import ResNetSE, count_params
+from model import CNNSE, count_params
 
 CLASS_NAMES = ["French_bulldog", "Cardigan", "Labrador_retriever", "golden_retriever"]
 
@@ -204,9 +204,9 @@ def train_one_seed(args, seed: int, device: torch.device) -> dict:
     if args.smoke:
         args.max_batches = 6
 
-    model = ResNetSE(num_classes=len(CLASS_NAMES), dropout=args.dropout).to(device)
+    model = CNNSE(num_classes=len(CLASS_NAMES), dropout=args.dropout).to(device)
     if seed == args.seeds[0]:
-        print(f"ResNetSE params: {count_params(model) / 1e6:.2f}M")
+        print(f"CNNSE params: {count_params(model) / 1e6:.2f}M")
     optimizer = build_optimizer(model, lr=args.lr, weight_decay=args.wd)
     ema = ModelEMA(model, decay=args.ema_decay)
 
@@ -269,7 +269,7 @@ def train_one_seed(args, seed: int, device: torch.device) -> dict:
 
     assert best_state is not None
     ckpt = {
-        "arch": "resnet_se",
+        "arch": "CNN_se",
         "state_dict": best_state,
         "seed": seed,
         "best_val_macro_f1": best_f1,
@@ -279,7 +279,7 @@ def train_one_seed(args, seed: int, device: torch.device) -> dict:
         "std": std,
         "config": vars(args),
     }
-    ckpt_path = OUTPUT_DIR / ("smoke_ckpt.pt" if args.smoke else f"best_resnet_se_seed{seed}.pt")
+    ckpt_path = OUTPUT_DIR / ("smoke_ckpt.pt" if args.smoke else f"best_CNN_se_seed{seed}.pt")
     torch.save(ckpt, ckpt_path)
     print(f"[seed {seed}] saved {ckpt_path} (best val macro-F1={best_f1:.4f} @ epoch {best_epoch})")
 
@@ -297,7 +297,7 @@ def train_one_seed(args, seed: int, device: torch.device) -> dict:
 
 def load_model(ckpt_path: Path, device: torch.device) -> nn.Module:
     ckpt = torch.load(ckpt_path, map_location=device, weights_only=False)
-    model = ResNetSE(num_classes=len(CLASS_NAMES))
+    model = CNNSE(num_classes=len(CLASS_NAMES))
     model.load_state_dict(ckpt["state_dict"])
     return model.to(device).eval()
 
@@ -354,7 +354,7 @@ def run_final_eval(args, device: torch.device) -> dict:
     test_probs: list[np.ndarray] = []
     test_labels = None
     for seed in args.seeds:
-        ckpt_path = OUTPUT_DIR / f"best_resnet_se_seed{seed}.pt"
+        ckpt_path = OUTPUT_DIR / f"best_CNN_se_seed{seed}.pt"
         if not ckpt_path.is_file():
             raise FileNotFoundError(ckpt_path)
         model = load_model(ckpt_path, device)

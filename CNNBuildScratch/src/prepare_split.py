@@ -31,7 +31,7 @@ PER_CLASS = 1000
 TRAIN_RATIO, VAL_RATIO, TEST_RATIO = 0.70, 0.15, 0.15
 IMAGE_SIZE = 224
 
-TRACK_DIR = Path(__file__).resolve().parents[1]  # resBuildScratch/
+TRACK_DIR = Path(__file__).resolve().parents[1]  # CNNBuildScratch/
 PROJECT_ROOT = TRACK_DIR.parent  # "AI Group project "
 PAPER_DIR = PROJECT_ROOT / "OneDrive_2026-10-24" / "0. Original Tsinghua Dataset and Paper"
 LOW_RES = PAPER_DIR / "low-resolution"

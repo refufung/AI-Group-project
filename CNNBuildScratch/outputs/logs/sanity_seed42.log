@@ -1,6 +1,6 @@
 Matplotlib is building the font cache; this may take a moment.
 device=mps epochs=60 seeds=[42] bs=32 lr=0.001 wd=0.05 warmup=5 mix_prob=0.5
-ResNetSE params: 11.26M
+CNNSE params: 11.26M
 [seed 42] epoch 001/60 lr=2.00e-04 train_loss=1.4052 train_acc=0.2625 val_loss=1.3868 val_acc=0.2517 val_f1=0.1147 (32s) *
 [seed 42] epoch 002/60 lr=4.00e-04 train_loss=1.3544 train_acc=0.3179 val_loss=1.3860 val_acc=0.2467 val_f1=0.1665 (63s) *
 [seed 42] epoch 003/60 lr=6.00e-04 train_loss=1.3430 train_acc=0.3271 val_loss=1.3849 val_acc=0.2617 val_f1=0.1836 (93s) *
@@ -61,19 +61,19 @@ ResNetSE params: 11.26M
 [seed 42] epoch 058/60 lr=3.30e-06 train_loss=0.8732 train_acc=0.6729 val_loss=0.6943 val_acc=0.7333 val_f1=0.7272 (1831s) *
 [seed 42] epoch 059/60 lr=8.34e-07 train_loss=0.8925 train_acc=0.6432 val_loss=0.6880 val_acc=0.7350 val_f1=0.7291 (1862s) *
 [seed 42] epoch 060/60 lr=1.05e-10 train_loss=0.8925 train_acc=0.6661 val_loss=0.6826 val_acc=0.7367 val_f1=0.7308 (1893s) *
-[seed 42] saved /Users/rexfufung/Desktop/AI Group project /resBuildScratch/outputs/best_resnet_se_seed42.pt (best val macro-F1=0.7308 @ epoch 60)
+[seed 42] saved /Users/rexfufung/Desktop/AI Group project /CNNBuildScratch/outputs/best_CNN_se_seed42.pt (best val macro-F1=0.7308 @ epoch 60)
 Traceback (most recent call last):
-  File "/Users/rexfufung/Desktop/AI Group project /resBuildScratch/src/train.py", line 443, in <module>
+  File "/Users/rexfufung/Desktop/AI Group project /CNNBuildScratch/src/train.py", line 443, in <module>
     main()
     ~~~~^^
-  File "/Users/rexfufung/Desktop/AI Group project /resBuildScratch/src/train.py", line 426, in main
+  File "/Users/rexfufung/Desktop/AI Group project /CNNBuildScratch/src/train.py", line 426, in main
     eval_results = run_final_eval(args, device)
-  File "/Users/rexfufung/Desktop/AI Group project /resBuildScratch/src/train.py", line 361, in run_final_eval
+  File "/Users/rexfufung/Desktop/AI Group project /CNNBuildScratch/src/train.py", line 361, in run_final_eval
     probs, labels = predict_probs(model, test_loader, device, tta_loader=tta_test)
                     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/Users/rexfufung/Desktop/AI Group project /cnn/.venv/lib/python3.14/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
     return func(*args, **kwargs)
-  File "/Users/rexfufung/Desktop/AI Group project /resBuildScratch/src/train.py", line 173, in predict_probs
+  File "/Users/rexfufung/Desktop/AI Group project /CNNBuildScratch/src/train.py", line 173, in predict_probs
     views = np.stack(probs, axis=0)  # (n_views, n, C) — n_views=2 if tta_loader else 1
   File "/Users/rexfufung/Desktop/AI Group project /cnn/.venv/lib/python3.14/site-packages/numpy/_core/shape_base.py", line 458, in stack
     raise ValueError('all input arrays must have the same shape')
